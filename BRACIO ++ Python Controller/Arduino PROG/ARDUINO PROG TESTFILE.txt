@@ -1,0 +1,352 @@
+#include <Braccio++.h>
+
+
+
+//////////////////////////////////////////////////////////////////////////DECL////////////////////////////////////////////////////////////////////////////////////////////////
+// Braccio ++ joints
+auto gripper    = Braccio.get(1);
+auto wristRoll  = Braccio.get(2);
+auto wristPitch = Braccio.get(3);
+auto elbow      = Braccio.get(4);
+auto shoulder   = Braccio.get(5);
+auto base       = Braccio.get(6);
+
+bool movement = false;
+float angles[6];    ///////// Unghiuri citite motoare
+float gripper_angle; 
+float rwrist_angle;
+float vwrist_angle;
+float elbow_angle;
+float shoulder_angle;
+float base_angle;
+///////////////////puncte ///////////////////
+struct point{
+  
+  float gripper;
+  float rwrist ;
+  float vwrist;
+  float elbow;
+  float shoulder ;
+  float base ;
+
+}  ;
+
+
+
+point home={157.5 ,10.0,90.0,110.0,100.0, 70.0};
+
+/// TELEGR
+//#FORMA TELEGRAMA 
+//# 'YQQQEEERRRTTTYYYUUUIII'
+//# Y=COMANDA  1-SINCRONIZARE , 2 -MISCARE LA PUNCT
+//# QQQ= grade_base     20-300
+//# EEE= grade_shoulder  20-120
+//# RRR= grade_elbow 90-210
+//# TTT= grade_vwrist 60-220
+//# YYY = grade_rwrist 20-270
+//# UUU = grade_gripper 160-220
+//# III = speed
+char message[22]; /// mesaj serial   
+// DECODARE COMENZI
+int comanda=0 ;    // 1-SINCRONIZARE , 2 -MISCARE LA PUNCT
+float speed=0.0 ;
+point point_to_move={0.0 , 0.0 , 0.0 , 0.0 ,0.0 ,0.0};
+
+//declarare functii 
+
+//citire-scriere serial 
+void citire_serial();
+int decodare_char(char input);
+void stergere_buffer();
+void scriere_serial();
+///decodare comenzi 
+void executare_comanda();
+//miscari
+void read_motor_angles();
+void move_to(float grade_base_i,float grade_shoulder_i,float grade_elbow_i,float grade_vwrist_i,float grade_rwrist_i,float grade_gripper_i,float speed_i);
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////SETP////////////////////////////////////////////////////////////////////////////////////////////////
+void setup() {
+   Serial.begin(9600);
+
+  // put your setup code here, to run once:
+  
+  if (Braccio.begin())
+  {
+    
+    Braccio.moveTo(home.gripper, home.rwrist,home.vwrist, home.elbow, home.shoulder, home.base);
+    delay(800);
+  }
+    
+
+
+}
+//////////////////////////////////////////////////////////////////////////MAIN////////////////////////////////////////////////////////////////////////////////////////////////
+void loop() {
+  ///citeste serial 
+  citire_serial();
+  delay(5);
+  ///executa comanda serial
+  executare_comanda();
+  delay(5);
+  ///citeste pozitie curenta
+  read_motor_angles(); 
+  delay(5);
+  //stergere_buffer();
+  stergere_buffer();
+  //raspunde serial 
+  delay(5);
+  scriere_serial();
+  delay(5);
+}
+
+//////////////////////////////////////////////////////////////////////////FUNC////////////////////////////////////////////////////////////////////////////////////////////////
+////citire serial////
+int decodare_char(char input ){
+  switch (input) {
+    case '0' : return 0; break ;
+    case '1' : return 1; break ;
+    case '2' : return 2; break ;
+    case '3' : return 3; break ;
+    case '4' : return 4; break ;
+    case '5' : return 5; break ;
+    case '6' : return 6; break ;
+    case '7' : return 7; break ;
+    case '8' : return 8; break ;
+    case '9' : return 9; break ;
+    
+  }
+}
+
+void citire_serial(){
+  int i=0 ; //contor caractere
+  int j=1;
+  while(Serial.available()){
+    delay(2);
+    char c = Serial.read();
+    delay(2);
+    message[i]= c ;
+    i++ ;
+  }
+  int sute ,zeci , unitati ;
+  ///decodare comanda
+  comanda = decodare_char( message[0]);
+  //// decodare grade baza
+  sute= decodare_char(message[1]) ;
+  zeci=decodare_char(message[2]) ;
+  unitati=decodare_char(message[3]) ;
+  point_to_move.base = sute *100.0 + zeci * 10.0 + unitati ; 
+  //// decodare grade shoulder
+  sute= decodare_char(message[4]) ;
+  zeci=decodare_char(message[5]) ;
+  unitati=decodare_char(message[6]) ;
+  point_to_move.shoulder = sute *100.0 + zeci * 10.0 + unitati ; 
+    //// decodare grade elbow
+  sute= decodare_char(message[7]) ;
+  zeci=decodare_char(message[8]) ;
+  unitati=decodare_char(message[9]) ;
+  point_to_move.elbow = sute *100.0 + zeci * 10.0 + unitati ; 
+    //// decodare grade vwrist
+  sute= decodare_char(message[10]) ;
+  zeci=decodare_char(message[11]) ;
+  unitati=decodare_char(message[12]) ;
+  point_to_move.vwrist = sute *100.0 + zeci * 10.0 + unitati ; 
+    //// decodare grade rwrist
+  sute= decodare_char(message[13]) ;
+  zeci=decodare_char(message[14]) ;
+  unitati=decodare_char(message[15]) ;
+  point_to_move.rwrist = sute *100.0 + zeci * 10.0 + unitati ; 
+    //// decodare grade gripper
+  sute= decodare_char(message[16]) ;
+  zeci=decodare_char(message[17]) ;
+  unitati=decodare_char(message[18]) ;
+  point_to_move.gripper = sute *100.0 + zeci * 10.0 + unitati ; 
+    //// decodare grade speed
+  sute= decodare_char(message[19]) ;
+  zeci=decodare_char(message[20]) ;
+  unitati=decodare_char(message[21]) ;
+  speed =sute *100.0+ zeci * 10.0 + unitati ; 
+
+  
+
+}
+
+void stergere_buffer(){
+  
+  for (int i=0;i<22;i++){
+    message[i]=0;
+  }
+
+
+}
+
+void scriere_serial(){
+  String onechar=String(0);
+  String twochar=String(0)+String(0);
+  ///convert to integer angles
+  int gripper_angle_int=gripper_angle ;
+  int rwrist_angle_int=rwrist_angle ;
+  int vwrist_angle_int=vwrist_angle ;
+  int elbow_angle_int=elbow_angle;
+  int shoulder_angle_int=shoulder_angle ;
+  int base_angle_int=base_angle;
+  ///convert to string angles
+  String gripper_angle_str;
+  String rwrist_angle_str;
+  String vwrist_angle_str;
+  String elbow_angle_str;
+  String shoulder_angle_str;
+  String base_angle_str;
+  //upgrade length 
+  if (String(gripper_angle_int).length()==1){
+    gripper_angle_str=twochar+String(gripper_angle_int);
+  }
+  else if (String(gripper_angle_int).length()==2)
+  {
+    gripper_angle_str=onechar+String(gripper_angle_int);
+  }
+  else  if (String(gripper_angle_int).length()==3) {
+    gripper_angle_str=String(gripper_angle_int);
+  }
+  
+  //upgrade length 
+  if (String(rwrist_angle_int).length()==1){
+    rwrist_angle_str=twochar+String(rwrist_angle_int);
+  }
+  else if (String(rwrist_angle_int).length()==2)
+  {
+    rwrist_angle_str=onechar+String(rwrist_angle_int);
+  }
+  else  if (String(rwrist_angle_int).length()==3) {
+    rwrist_angle_str=String(rwrist_angle_int);
+  }
+
+    //upgrade length 
+  if (String(vwrist_angle_int).length()==1){
+    vwrist_angle_str=twochar+String(vwrist_angle_int);
+  }
+  else if (String(vwrist_angle_int).length()==2)
+  {
+    vwrist_angle_str=onechar+String(vwrist_angle_int);
+  }
+  else  if (String(vwrist_angle_int).length()==3) {
+    vwrist_angle_str=String(vwrist_angle_int);
+  }
+
+   //upgrade length 
+  if (String(elbow_angle_int).length()==1){
+    elbow_angle_str=twochar+String(elbow_angle_int);
+  }
+  else if (String(elbow_angle_int).length()==2)
+  {
+    elbow_angle_str=onechar+String(elbow_angle_int);
+  }
+  else  if (String(elbow_angle_int).length()==3) {
+    elbow_angle_str=String(elbow_angle_int);
+  }
+
+   //upgrade length 
+  if (String(shoulder_angle_int).length()==1){
+    shoulder_angle_str=twochar+String(shoulder_angle_int);
+  }
+  else if (String(shoulder_angle_int).length()==2)
+  {
+    shoulder_angle_str=onechar+String(shoulder_angle_int);
+  }
+  else  if (String(shoulder_angle_int).length()==3) {
+    shoulder_angle_str=String(shoulder_angle_int);
+  }
+
+   //upgrade length 
+  if (String(base_angle_int).length()==1){
+    base_angle_str=twochar+String(base_angle_int);
+  }
+  else if (String(base_angle_int).length()==2)
+  {
+    base_angle_str=onechar+String(base_angle_int);
+  }
+  else  if (String(base_angle_int).length()==3) {
+    base_angle_str=String(base_angle_int);
+  }
+
+  ///telegrama scriere 
+  String telegrama_raspuns = String(0)+base_angle_str+shoulder_angle_str+elbow_angle_str+vwrist_angle_str+rwrist_angle_str+gripper_angle_str+String(0)+String(0)+String(0) ;
+  if(telegrama_raspuns.length()==22) 
+  for (int i = 0; i < telegrama_raspuns.length(); i++)
+  {
+    Serial.write(telegrama_raspuns[i]);   // Push each char 1 by 1 on each loop pass
+  }
+}
+
+////control motoare////
+
+void move_to(float grade_base_i,float grade_shoulder_i,float grade_elbow_i,float grade_vwrist_i,float grade_rwrist_i,float grade_gripper_i,float speed_i){
+      delay(10);
+      Braccio.setAngularVelocity(speed_i);
+      Braccio.moveTo(grade_gripper_i, grade_rwrist_i,grade_vwrist_i, grade_elbow_i, grade_shoulder_i, grade_base_i);     
+      delay(600);
+}
+
+////citire serial unghi motor////
+void read_motor_angles(){
+  Braccio.positions(angles);
+  gripper_angle=angles[0]; 
+  rwrist_angle=angles[1];
+  vwrist_angle=angles[2];
+  elbow_angle=angles[3];
+  shoulder_angle=angles[4];
+  base_angle=angles[5];  
+
+}
+
+
+void executare_comanda(){
+
+  if (comanda==2){
+    move_to(point_to_move.base,point_to_move.shoulder,point_to_move.elbow,point_to_move.vwrist,point_to_move.rwrist,point_to_move.gripper,speed);
+    delay(400);
+  }
+
+  else if (comanda==1){
+    move_to(home.base,home.shoulder,home.elbow,home.vwrist,home.rwrist,home.gripper,speed);
+    delay(400);
+  }
+
+  else if (comanda==3){
+    base.move().to(point_to_move.base);
+    delay(10);
+  }
+
+  else if (comanda==4){
+    shoulder.move().to(point_to_move.shoulder); 
+    delay(10);
+  }
+
+
+    else if (comanda==5){
+    elbow.move().to(point_to_move.elbow); 
+    delay(10);
+  }
+
+    else if (comanda==6){
+    wristPitch.move().to(point_to_move.vwrist); 
+    delay(10);
+  }
+
+    else if (comanda==7){
+    wristRoll.move().to(point_to_move.rwrist); 
+    delay(10);
+  }
+
+    else if (comanda==8){
+    gripper.move().to(point_to_move.gripper); 
+    delay(10);
+  }
+
+
+
+}
