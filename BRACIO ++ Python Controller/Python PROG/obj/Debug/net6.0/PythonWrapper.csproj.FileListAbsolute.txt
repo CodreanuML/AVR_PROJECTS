@@ -1,0 +1,30 @@
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.exe
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.deps.json
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.runtimeconfig.json
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.pdb
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.csproj.AssemblyReference.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.AssemblyInfoInputs.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.AssemblyInfo.cs
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.csproj.CoreCompileInputs.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\refint\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.pdb
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.genruntimeconfig.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\Python PROG\PythonWrapper\obj\Debug\net6.0\ref\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.exe
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.deps.json
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.runtimeconfig.json
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\bin\Debug\net6.0\PythonWrapper.pdb
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.csproj.AssemblyReference.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.AssemblyInfoInputs.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.AssemblyInfo.cs
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.csproj.CoreCompileInputs.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\refint\PythonWrapper.dll
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.pdb
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\PythonWrapper.genruntimeconfig.cache
+C:\Users\mcodrea2\Desktop\PROIECTE\Arduino\Bracio\PythonPROG\PythonWrapper\obj\Debug\net6.0\ref\PythonWrapper.dll

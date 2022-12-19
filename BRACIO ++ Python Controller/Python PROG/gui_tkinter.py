@@ -29,8 +29,8 @@ rwrist_read=0.0
 gripper_read=0.0
 
 
-speed_manu= '020' ;
-increment_manu =5 ;
+speed_manu= db.rdata("speed") ;
+increment_manu =db.rdata("step") ;
 
 point1=db.rdata('point1')
 point2=db.rdata('point2')
@@ -1046,4 +1046,5 @@ P_TEACH.grid(row=14,column=0,columnspan=1)
 print("started")
 """ ---- SYSTEM CALL ---- """
 root.after(1000,update_degrees())
+root.after(1500,start_auto())
 root.mainloop() # will continous looping (infinite while)
