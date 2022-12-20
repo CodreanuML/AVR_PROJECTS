@@ -81,5 +81,3 @@ to_speed='020' ;
 
 
 
-
-serial_write(to_comanda,to_grade_base,to_grade_shoulder,to_grade_elbow,to_grade_vwrist,to_grade_rwrist,to_grade_gripper,to_speed)
