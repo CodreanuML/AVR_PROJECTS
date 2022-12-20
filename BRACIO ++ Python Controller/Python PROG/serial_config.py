@@ -11,12 +11,12 @@ baudrate=0 #baudrate
 
 
 """ ---- SERIAL PROGRAM ---- """
-
-
+DB=db.Database()
+program=DB.rprogram()
 """ SERIAL CONFIG """
 ser=serial.Serial()
-ser.baudrate=9600 
-ser.port=db.rdata("port");
+ser.baudrate=DB.rdata(program,"baudrate")
+ser.port=DB.rdata(program,"port");
 
 
 """ SERIAL WRITE """
@@ -40,7 +40,7 @@ def serial_write(comanda,grade_base,grade_shoulder,grade_elbow,grade_vwrist,grad
 	telegrama='{a}{b}{c}{d}{e}{f}{g}{i}'.format(a=comanda,b=grade_base,c=grade_shoulder,d=grade_elbow,e=grade_vwrist,f=grade_rwrist,g=grade_gripper,i=speed).encode('ASCII')
 	telegrama_s=comanda+grade_base+grade_shoulder+grade_elbow+grade_vwrist+grade_rwrist+grade_gripper+speed
 	try:
-		print("START")
+		
 		print(telegrama_s)
 		ser.close()
 		ser.open()
@@ -62,7 +62,7 @@ def serial_read():
 		s = ser.read(22)
 		ser.close()
 		print(s)
-		print("STOP")
+		
 	except:
 		s='1111111111'
 		print("unable to read")

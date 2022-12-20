@@ -4,45 +4,42 @@ from tkinter import *
 import serial_config
 import db
 """ ---- VARIABLE DECLARATION ---- """
-auto_proram_cycles=db.rdata('program')[0]
-auto_steps=db.rdata('program')[1]
-auto_point1_w8=db.rdata('program')[2]
-auto_point2_w8=db.rdata('program')[3]
-auto_point3_w8=db.rdata('program')[4]
-auto_point4_w8=db.rdata('program')[5]
-auto_point5_w8=db.rdata('program')[6]
-auto_point6_w8=db.rdata('program')[7]
-auto_point7_w8=db.rdata('program')[8]
-auto_point8_w8=db.rdata('program')[9]
-auto_point9_w8=db.rdata('program')[10]
-auto_point10_w8=db.rdata('program')[11]
-auto_count=0 
 
+#DABATASE INITIALIZATION
+DB=db.Database()
+
+
+#ALL VARIABLE INITIALIZATION
+program=DB.rprogram()
 mode=0
 
-base_read=0.0 
-shoulder_read=0.0
-elbow_read=0.0
-elbow_read=0.0
-vwrist_read=0.0
-rwrist_read=0.0
-gripper_read=0.0
 
 
-speed_manu= db.rdata("speed") ;
-increment_manu =db.rdata("step") ;
+auto_proram_cycles=DB.rdata(program,'program')[0]
+auto_steps=DB.rdata(program,'program')[1]
+auto_point1_w8=DB.rdata(program,'program')[2]
+auto_point2_w8=DB.rdata(program,'program')[3]
+auto_point3_w8=DB.rdata(program,'program')[4]
+auto_point4_w8=DB.rdata(program,'program')[5]
+auto_point5_w8=DB.rdata(program,'program')[6]
+auto_point6_w8=DB.rdata(program,'program')[7]
+auto_point7_w8=DB.rdata(program,'program')[8]
+auto_point8_w8=DB.rdata(program,'program')[9]
+auto_point9_w8=DB.rdata(program,'program')[10]
+auto_point10_w8=DB.rdata(program,'program')[11]
 
-point1=db.rdata('point1')
-point2=db.rdata('point2')
-point3=db.rdata('point3')
-point4=db.rdata('point4')
-point5=db.rdata('point5')
-point6=db.rdata('point6')
-point7=db.rdata('point7')
-point8=db.rdata('point8')
-point9=db.rdata('point9')
-point10=db.rdata('point10')	
-
+speed_manu= DB.rdata(program,"speed") ;
+increment_manu =DB.rdata(program,"step") ;
+point1=DB.rdata(program,'point1')
+point2=DB.rdata(program,'point2')
+point3=DB.rdata(program,'point3')
+point4=DB.rdata(program,'point4')
+point5=DB.rdata(program,'point5')
+point6=DB.rdata(program,'point6')
+point7=DB.rdata(program,'point7')
+point8=DB.rdata(program,'point8')
+point9=DB.rdata(program,'point9')
+point10=DB.rdata(program,'point10')	
 
 point1_str=str(point1)
 point2_str=str(point2)
@@ -56,12 +53,20 @@ point9_str=str(point9)
 point10_str=str(point10)
 
 
+auto_count=0 
+base_read=0.0 
+shoulder_read=0.0
+elbow_read=0.0
+elbow_read=0.0
+vwrist_read=0.0
+rwrist_read=0.0
+gripper_read=0.0
+
+
 print(point1_str)
 
 
-
-
-# MAIN CLASS TO WRITE ON SERIAL 
+# MAIN CLASS TO WRITE A POINT ON SERIAL 
 class point():
 	def __init__(self,arr):
 		
@@ -112,19 +117,6 @@ class point():
 		snumar=self.sttr(numar)
 		return snumar
 
-
-#DECLARING MAIN ROOT AND FRAMES
-root=Tk() # declaring the main window , root window
-frame0 = Frame(root,width=200, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-frame1 = Frame(root,width=200, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-frame2 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-frame3 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-frame4 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-frame5 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-root.geometry("492x965")
-
-""" SERIAL READ """
-
 """ DECODARE TELEGRAMA """
 def decodare_char(input_char):
   if (chr(input_char)=='0') :
@@ -147,6 +139,19 @@ def decodare_char(input_char):
   	return 8
   elif (chr(input_char)=='9'):
   	return 9
+
+#DECLARING MAIN ROOT AND FRAMES
+root=Tk() # declaring the main window , root window
+frame0 = Frame(root,width=200, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+frame1 = Frame(root,width=200, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+frame2 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+frame3 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+frame4 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+frame5 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
+root.geometry("492x965")
+
+""" SERIAL READ """
+
 
 """ ---- CREATING EVENTS ----  """
 #UPDATE DEGREES ON SCREEN
@@ -354,6 +359,7 @@ def sincronizare():
 
 def teach_point(p_teach):
 	update_degrees()
+	global program
 	global base_read
 	global shoulder_read
 	global elbow_read
@@ -369,39 +375,38 @@ def teach_point(p_teach):
 
 
 	if p_teach==1 :
-		db.wdata("point1",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point1",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point1_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))		
 	elif p_teach==2 :
-		db.wdata("point2",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point2",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point2_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==3 :
-		db.wdata("point3",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point3",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point3_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==4 :
-		db.wdata("point4",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point4",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point4_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==5 :
-		db.wdata("point5",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point5",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point5_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==6 :
-		db.wdata("point6",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point6",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point6_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==7 :
-		db.wdata("point7",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point7",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point7_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==8 :
-		db.wdata("point8",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point8",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point8_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==9 :
-		db.wdata("point9",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point9",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point9_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 	elif p_teach==10 :
-		db.wdata("point10",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
+		DB.wdata(program,"point10",[base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i])
 		Point10_value.config(text=str([base_int,shoulder_i,elbow_i,vwrist_i,rwrist_i,gripper_i]))	
 
 def save_program():
-
-
+	global program
 	global auto_proram_cycles
 	global auto_steps
 	global auto_point1_w8
@@ -475,7 +480,7 @@ def save_program():
 
 	program_arr=[auto_proram_cycles,auto_steps,auto_point1_w8,auto_point2_w8,auto_point3_w8,auto_point4_w8,auto_point5_w8,auto_point6_w8,auto_point7_w8,auto_point8_w8,auto_point9_w8,auto_point10_w8]
 
-	db.wdata("program",program_arr)
+	DB.wdata(program,"program",program_arr)
 	NR_OF_CYCLES_D1.config(text=str(auto_proram_cycles)+" cycles")
 	NR_OF_STEPS_D1.config(text=str(auto_steps)+" steps")
 	P1_W8_TIME_D1.config(text=str(auto_point1_w8)+" sec")
@@ -492,7 +497,7 @@ def save_program():
 def start_auto():
 	global auto_count
 	global mode 
-	program_r=db.rdata("program")
+	program_r=DB.rdata(program,"program")
 	auto_count=program_r[0]
 	mode=1
 
@@ -504,6 +509,7 @@ def start_manual():
 	mode=0
 
 def start_goto_p1():
+	global program
 	global speed_manu
 	global auto_point1_w8
 	global auto_steps
@@ -511,7 +517,7 @@ def start_goto_p1():
 
 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point1"))
+		point1=point(DB.rdata(program,"point1"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 		if auto_steps>=2 :
 			root.after(auto_point1_w8*1000,start_goto_p2)
@@ -522,13 +528,14 @@ def start_goto_p1():
 			root.after(auto_point1_w8*1000,sincronizare)
 
 def start_goto_p2():
+	global program
 	global speed_manu
 	global auto_point2_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point2"))
+		point1=point(DB.rdata(program,"point2"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=3 :
@@ -538,13 +545,14 @@ def start_goto_p2():
 			root.after(auto_point2_w8*1000,start_goto_p1)
 
 def start_goto_p3():
+	global program
 	global speed_manu
 	global auto_point3_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point3"))
+		point1=point(DB.rdata(program,"point3"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=4 :
@@ -554,13 +562,14 @@ def start_goto_p3():
 			root.after(auto_point3_w8*1000,start_goto_p1)
 
 def start_goto_p4():
+	global program
 	global speed_manu
 	global auto_point4_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point4"))
+		point1=point(DB.rdata(program,"point4"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=5 :
@@ -570,13 +579,14 @@ def start_goto_p4():
 			root.after(auto_point4_w8*1000,start_goto_p1)
 
 def start_goto_p5():
+	global program
 	global speed_manu
 	global auto_point5_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point5"))
+		point1=point(DB.rdata(program,"point5"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=6 :
@@ -586,13 +596,14 @@ def start_goto_p5():
 			root.after(auto_point5_w8*1000,start_goto_p1)
 
 def start_goto_p6():
+	global program
 	global speed_manu
 	global auto_point6_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1:
-		point1=point(db.rdata("point6"))
+		point1=point(DB.rdata(program,"point6"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=7 :
@@ -602,13 +613,14 @@ def start_goto_p6():
 			root.after(auto_point6_w8*1000,start_goto_p1)
 
 def start_goto_p7():
+	global program
 	global speed_manu
 	global auto_point7_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1:
-		point1=point(db.rdata("point7"))
+		point1=point(DB.rdata(program,"point7"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=8 :
@@ -618,13 +630,14 @@ def start_goto_p7():
 			root.after(auto_point7_w8*1000,start_goto_p1)
 
 def start_goto_p8():
+	global program
 	global speed_manu
 	global auto_point8_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point8"))
+		point1=point(DB.rdata(program,"point8"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=9 :
@@ -634,13 +647,14 @@ def start_goto_p8():
 			root.after(auto_point8_w8*1000,start_goto_p1)
 
 def start_goto_p9():
+	global program
 	global speed_manu
 	global auto_point9_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1 :
-		point1=point(db.rdata("point9"))
+		point1=point(DB.rdata(program,"point9"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		if auto_steps>=9 :
@@ -650,13 +664,14 @@ def start_goto_p9():
 			root.after(auto_point9_w8*1000,start_goto_p1)
 
 def start_goto_p10():
+	global program
 	global speed_manu
 	global auto_point10_w8
 	global auto_steps
 	global auto_count
 	global mode 
 	if auto_count>0 and mode==1:
-		point1=point(db.rdata("point10"))
+		point1=point(DB.rdata(program,"point10"))
 		serial_config.serial_write('2',point1.s_base(),point1.s_shoulder(),point1.s_elbow(),point1.s_vwrist(),point1.s_rwrist(),point1.s_gripper(),speed_manu)
 
 		auto_count-=1 
@@ -664,6 +679,18 @@ def start_goto_p10():
 		
 		
 		
+
+
+
+
+
+
+
+
+
+""" ---------------------------------------GENERAL USER INTERFACE----------------------------"""
+
+
 
 """ ---- LABELS ---- """
 
@@ -1043,8 +1070,9 @@ P10_W8_TIME_D1.grid(row=12,column=3)
 P_TEACH_space.grid(row=13,column=0,columnspan=4)
 
 P_TEACH.grid(row=14,column=0,columnspan=1)
-print("started")
+print("MAIN THREAD STARTED")
 """ ---- SYSTEM CALL ---- """
 root.after(1000,update_degrees())
-root.after(1500,start_auto())
+if mode==1:
+	root.after(1500,start_auto())
 root.mainloop() # will continous looping (infinite while)
