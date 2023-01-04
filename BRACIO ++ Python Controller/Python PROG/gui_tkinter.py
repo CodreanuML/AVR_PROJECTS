@@ -6,10 +6,15 @@ import db
 import sys
 """ ---- VARIABLE DECLARATION ---- """
 
-argv_sys=int(sys.argv[1])
+try:
+	argv_sys=int(sys.argv[1])
 
-p_argv=argv_sys % 10
-m_argv=argv_sys // 10
+	p_argv=argv_sys % 10
+	m_argv=argv_sys // 10
+
+except:
+	p_argv=0
+	m_argv=0
 print(p_argv)
 print(m_argv)
 #DABATASE INITIALIZATION
@@ -26,7 +31,6 @@ if m_argv==1 :
 	mode=1
 else:
 	mode=0
-
 
 
 auto_proram_cycles=DB.rdata(program,'program')[0]
