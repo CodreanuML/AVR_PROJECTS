@@ -278,7 +278,7 @@ class Database():
 
 
 	def wprogram(self,svalue):
-		programs=["prog1","prog2","prog3","prog4","prog5","prog6","prog7","prog8","prog9","prog9"]
+		programs=["prog1","prog2","prog3","prog4","prog5","prog6","prog7","prog8","prog9","prog9","prog10"]
 		with open("database.json", "r") as read_file:
 			data=json.load(read_file)	
 			if (svalue in programs)  :

@@ -148,13 +148,61 @@ frame2 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey
 frame3 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
 frame4 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
 frame5 = Frame(root,width=492, height=400,borderwidth=1,relief='sunken',bg='grey',padx=5,pady=5)
-root.geometry("492x965")
+root.geometry("492x975")
 
 """ SERIAL READ """
 
 
 """ ---- CREATING EVENTS ----  """
 #UPDATE DEGREES ON SCREEN
+
+def set_prog_d():
+	global program
+	program=clicked.get()
+	com=clicked2.get()
+	print(program);
+	print(com);
+	point1=DB.rdata(program,"point1")
+	point2=DB.rdata(program,"point2")
+	point3=DB.rdata(program,"point3")
+	point4=DB.rdata(program,"point4")
+	point5=DB.rdata(program,"point5")
+	point6=DB.rdata(program,"point6")
+	point7=DB.rdata(program,"point7")
+	point8=DB.rdata(program,"point8")
+	point9=DB.rdata(program,"point9")
+	point10=DB.rdata(program,"point10")
+	DB.wdata(program,"port",com)
+	program_req=DB.rdata(program,"program")
+
+
+	Point1_value.config(text=str([point1[0],point1[1],point1[2],point1[3],point1[4],point1[5]]))		
+	Point2_value.config(text=str([point2[0],point2[1],point2[2],point2[3],point2[4],point2[5]]))	
+	Point3_value.config(text=str([point3[0],point3[1],point3[2],point3[3],point3[4],point3[5]]))	
+	Point4_value.config(text=str([point4[0],point4[1],point4[2],point4[3],point4[4],point4[5]]))	
+	Point5_value.config(text=str([point5[0],point5[1],point5[2],point5[3],point5[4],point5[5]]))	
+	Point6_value.config(text=str([point6[0],point6[1],point6[2],point6[3],point6[4],point6[5]]))	
+	Point7_value.config(text=str([point7[0],point7[1],point7[2],point7[3],point7[4],point7[5]]))	
+	Point8_value.config(text=str([point8[0],point8[1],point8[2],point8[3],point8[4],point8[5]]))	
+	Point9_value.config(text=str([point9[0],point9[1],point9[2],point9[3],point9[4],point9[5]]))	
+	Point10_value.config(text=str([point10[0],point10[1],point10[2],point10[3],point10[4],point10[5]]))	
+
+
+
+	NR_OF_CYCLES_D1.config(text=str(program_req[0]))
+	NR_OF_STEPS_D1.config(text=str(program_req[1]))
+	P1_W8_TIME_D1.config(text=str(program_req[2]))
+	P2_W8_TIME_D1.config(text=str(program_req[3]))
+	P3_W8_TIME_D1.config(text=str(program_req[4]))
+	P4_W8_TIME_D1.config(text=str(program_req[5]))
+	P5_W8_TIME_D1.config(text=str(program_req[6]))
+	P6_W8_TIME_D1.config(text=str(program_req[7]))
+	P7_W8_TIME_D1.config(text=str(program_req[8]))
+	P8_W8_TIME_D1.config(text=str(program_req[9]))
+	P9_W8_TIME_D1.config(text=str(program_req[10]))
+	P10_W8_TIME_D1.config(text=str(program_req[11]))
+
+
 
 def get_speed_d():
 	global speed_manu
@@ -768,9 +816,25 @@ get_step=Entry(frame1,width=10)
 set_speed=Button(frame1,text='SET',width=5,command=get_speed_d)
 set_step=Button(frame1,text='SET',width=5,command=get_step_d)
 
+options=["prog1","prog2","prog3","prog4","prog5","prog6","prog7","prog8","prog9","prog10"]
+clicked=StringVar()
+clicked.set(options[0])
+
+options2=["COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"]
+clicked2=StringVar()
+clicked2.set(options2[0])
 
 
-Point_TEXT=Label(frame3,text='PROGRAM POINTS',width=68)
+Point_TEXT1=Label(frame3,text='PROGRAM SELECTION',width=28,height=1)
+Point_TEXT2=Label(frame3,text='',width=2,height=1,bg='grey')
+Point_TEXT=OptionMenu(frame3,clicked,* options)
+Point_TEXT3=Label(frame3,text='',width=2,height=1,bg='grey')
+Point_TEXT6=OptionMenu(frame3,clicked2,* options2)
+Point_TEXT5=Label(frame3,text='',width=2,height=1,bg='grey')
+Point_TEXT4=Button(frame3,text='SET',width=8,command=set_prog_d)
+
+
+
 
 Descr1=Label(frame2,text='POINTS',width=22)
 Descr2=Label(frame2,text='COORDINATES',width=22)
@@ -967,7 +1031,16 @@ Descr1.grid(row=1,column=0)
 Descr2.grid(row=1,column=1)
 Descr3.grid(row=1,column=2)
 
-Point_TEXT.grid(row=0,column=0)
+Point_TEXT.grid(row=0,column=4)
+Point_TEXT1.grid(row=0,column=0)
+Point_TEXT2.grid(row=0,column=1)
+Point_TEXT3.grid(row=0,column=3)
+Point_TEXT4.grid(row=0,column=2)
+Point_TEXT5.grid(row=0,column=5)
+Point_TEXT6.grid(row=0,column=6)
+
+
+
 Point1.grid(row=2,column=0)
 Point2.grid(row=3,column=0)
 Point3.grid(row=4,column=0)
