@@ -3,15 +3,29 @@
 from tkinter import *
 import serial_config
 import db
+import sys
 """ ---- VARIABLE DECLARATION ---- """
 
+argv_sys=int(sys.argv[1])
+
+p_argv=argv_sys % 10
+m_argv=argv_sys // 10
+print(p_argv)
+print(m_argv)
 #DABATASE INITIALIZATION
 DB=db.Database()
 
 
 #ALL VARIABLE INITIALIZATION
-program=DB.rprogram()
-mode=0
+if p_argv in range(1,10):
+	program="prog"+str(p_argv)
+else:
+	program=DB.rprogram()
+
+if m_argv==1 :
+	mode=1
+else:
+	mode=0
 
 
 
@@ -1149,3 +1163,4 @@ root.after(1000,update_degrees())
 if mode==1:
 	root.after(1500,start_auto())
 root.mainloop() # will continous looping (infinite while)
+
