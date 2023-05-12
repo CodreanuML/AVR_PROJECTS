@@ -4,7 +4,7 @@
  * Created: 3/19/2023 6:04:27 PM
  *  Author: mcodrea2
  */ 
-
+# define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
 /* Timers/Counter Descriptions
@@ -109,54 +109,6 @@ void delay_ms_t1(int ms)
 	}	
 }
 
-// POLLING METHOD TO GENERATE DELAY in US using timer 0
-void delay_us_t0(int us)
-{
-	int count=0 ;
-	TCNT0=0 ;
-	TCCR0B=0x02;  // PRESCALER 8
-	while (count<us){
-		if (TCNT0>=2){
-			TCNT0=0;
-			count++ ;
-		}
-		
-	}
-	
-}
-
-
-// POLLING METHOD TO GENERATE DELAY in US using timer 2
-void delay_us_t2(int us)
-{
-	int count=0 ;
-	TCNT2=0 ;
-	TCCR2B=0x02;  // PRESCALER 8
-	while (count<us){
-		if (TCNT2>=2){
-			TCNT2=0;
-			count++ ;
-		}
-		
-	}
-	
-}
-
-// POLLING METHOD TO GENERATE DELAY in US using timer 1
-void delay_us_t1(int us)
-{
-	int count=0 ;
-	TCNT1=0 ;
-	TCCR1B=0x02;  // PRESCALER 8
-	while (count<us){
-		if (TCNT1>=2){
-			TCNT1=0;
-			count++ ;
-		}
-		
-	}
-	
-}
 
 
 
@@ -165,8 +117,8 @@ void delay_us_t1(int us)
 void set_timer_0_ms_int()
 {
 
-	TCNT0=55 ;     // SET STARTING P TO 55 
-	TCCR0B=0x02;  // PRESCALER 8
+	TCNT0=6 ;     // SET STARTING P TO 55 
+	TCCR0B=0x03;  // PRESCALER 64
 	TIMSK0 |= (1 << TOIE0);
 	sei();
 }
@@ -176,8 +128,8 @@ void set_timer_0_ms_int()
 void set_timer_2_ms_int()
 {
 
-	TCNT2=55 ;     // SET STARTING P TO 55
-	TCCR2B=0x02;  // PRESCALER 8
+	TCNT2=6 ;     // SET STARTING P TO 55
+	TCCR2B=0x04;  // PRESCALER 64
 	TIMSK2 |= (1 << TOIE2);
 	sei();	
 }
@@ -187,42 +139,11 @@ void set_timer_2_ms_int()
 void set_timer_1_ms_int()
 {
 
-	TCNT1=65336 ;     // SET STARTING P TO 55
-	TCCR1B=0x02;  // PRESCALER 8
+	TCNT1=65286 ;     // SET STARTING P TO 55
+	TCCR1B=0x03;  // PRESCALER 64
 	TIMSK1 |= (1 << TOIE1);
 	sei();
 }
 
 
-// Interrupt T0 - US
-// DO NOT FORGET WHEN IS REUSED TO REINIT TCNT0 WITH PRESCALED VALUE-overflow val 255 
-void set_timer_0_us_int()
-{
 
-	TCNT0=253 ;     // SET STARTING P TO 55 
-	TCCR0B=0x02;  // PRESCALER 8
-	TIMSK0 |= (1 << TOIE0);
-	sei();
-}
-
-// Interrupt T2 -US
-// DO NOT FORGET WHEN IS REUSED TO REINIT TCNT0 WITH PRESCALED VALUE-overflow val 255
-void set_timer_2_us_int()
-{
-
-	TCNT2=253 ;     // SET STARTING P TO 55
-	TCCR2B=0x02;  // PRESCALER 8
-	TIMSK2 |= (1 << TOIE2);
-	sei();	
-}
-
-// Interrupt T1 -US
-// DO NOT FORGET WHEN IS REUSED TO REINIT TCNT0 WITH PRESCALED VALUE-overflow val 65536
-void set_timer_1_us_int()
-{
-
-	TCNT1=65534 ;     // SET STARTING P TO 55
-	TCCR1B=0x02;  // PRESCALER 8
-	TIMSK1 |= (1 << TOIE1);
-	sei();
-}
