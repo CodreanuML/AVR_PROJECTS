@@ -1,5 +1,5 @@
 /*
- * 7Segment.h
+ * 7Segment.c
  *
  * Created: 5/20/2023 6:03:44 PM
  *  Author: mcodrea2
@@ -7,63 +7,141 @@
 
 
 
-
-/// THIS LIBRARY IS USED TO CONTROL A SEVEN SEGMENT DISPLAY USING AvrGeneral.h AND BUILDING A GENERAL WIRING SCHEMA 
-
-/// EXAMPLE OF USAGE.
-
-//int display1
-//int a , int b ,int c,int d, int e, int f,int g
-
-
-//display1=display_SET(7); Display catode is on pin 7
-
-//a=set_digit_pin(0); Setting every digit on every pin a is on pin 0 , b on pin 2 , c on pin 5 ,d on pin 4 , e on pin 3 , f on pin 1 ,g on pin 6.
-//b=set_digit_pin(2);
-//c=set_digit_pin(5);
-//d=set_digit_pin(4);
-//e=set_digit_pin(3);
-//f=set_digit_pin(1);
-//g=set_digit_pin(6);
-
-//display_ON(display1); Turn display ON
-
-
-//show_no(a,b,c,d,e,f,g,no); SHOWING NUMBER  .
-
-
-
-
-
-
-
-
+#include <AvrGeneral.h>
 
 # define F_CPU 16000000UL
-#ifndef SevenSegment_H_
-#define SevenSegment_H_
 
 
-#include <AvrGeneral.h>
 /// FUNCTIONS TO SET UP THE COMMON CATODE PIN
-int  display_SET(int pin);
+
+int display_SET(int pin){
+	PinMode(pin,OUT);
+	return pin;
+}
 
 
 ///FUNCTIONS USED TO TURN DISPLAY ON OFF
-void display_ON(int display);
-void display_OFF(int display);
+void display_ON(int display){
+	DigitalWrite(display,LOW);
+}
 
-
+void display_OFF(int display){
+	DigitalWrite(display,HIGH);
+}
 
 ////FUNCTION TO SET UP PINS FOR EVERY SEGMENT 
-int set_digit_pin(int pin);
+int set_digit_pin(int pin){
+	PinMode(pin,OUT);
+	return pin;
+}
 
 
 /// FUNCTIONS USED TO DISPLAY A DIGIT
-void clear_all(int a,int b,int c,int d,int e,int f,int g);
-void show_no(int a,int b,int c,int d,int e,int f,int g,int no);
+void clear_all(int a,int b,int c,int d,int e,int f,int g){
+	DigitalWrite(a,HIGH);
+	DigitalWrite(b,HIGH);
+	DigitalWrite(c,HIGH);
+	DigitalWrite(d,HIGH);
+	DigitalWrite(e,HIGH);
+	DigitalWrite(f,HIGH);
+	DigitalWrite(g,HIGH);
+}
 
+void show_no(int a,int b,int c,int d,int e,int f,int g,int no){
+	
+	switch(no){
+		case 0 : 
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,LOW);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,HIGH);
+				break;
+		case 1 :
+				DigitalWrite(a,HIGH);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,HIGH);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,HIGH);
+				DigitalWrite(g,HIGH);
+				break;
+		case 2 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,HIGH);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,LOW);
+				DigitalWrite(f,HIGH);
+				DigitalWrite(g,LOW);
+				break;
+		case 3 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,HIGH);
+				DigitalWrite(g,LOW);
+				break;				
+		case 4 :
+				DigitalWrite(a,HIGH);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,HIGH);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,LOW);
+				break;						
+		case 5 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,HIGH);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,LOW);
+				break;
+		case 6 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,HIGH);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,LOW);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,LOW);
+				break;
+		case 7 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,HIGH);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,HIGH);
+				DigitalWrite(g,HIGH);
+				break;
+		case 8 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,LOW);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,LOW);
+				break;
+		case 9 :
+				DigitalWrite(a,LOW);
+				DigitalWrite(b,LOW);
+				DigitalWrite(c,LOW);
+				DigitalWrite(d,LOW);
+				DigitalWrite(e,HIGH);
+				DigitalWrite(f,LOW);
+				DigitalWrite(g,LOW);
+				break;
+		
+	}
+	
 
-
-
-#endif /* 7Segment_H_ */
+}
