@@ -29,7 +29,7 @@
 //display_ON(display1); Turn display ON
 
 
-//show_1(a,b,c,d,e,f,g); SHOWING NUMBER 1 .
+//show_no(a,b,c,d,e,f,g,no); SHOWING NUMBER  .
 
 
 
@@ -40,8 +40,11 @@
 
 
 # define F_CPU 16000000UL
-#ifndef 7Segment_H_
-#define 7Segment_H_
+#ifndef SevenSegment_H_
+#define SevenSegment_H_
+
+
+#include <AvrGeneral.h>
 /// FUNCTIONS TO SET UP THE COMMON CATODE PIN
 int  display_SET(int pin);
 
@@ -58,16 +61,8 @@ int set_digit_pin(int pin);
 
 /// FUNCTIONS USED TO DISPLAY A DIGIT
 void clear_all(int a,int b,int c,int d,int e,int f,int g);
-void show_0(int a,int b,int c,int d,int e,int f,int g);
-void show_1(int a,int b,int c,int d,int e,int f,int g);
-void show_2(int a,int b,int c,int d,int e,int f,int g);
-void show_3(int a,int b,int c,int d,int e,int f,int g);
-void show_4(int a,int b,int c,int d,int e,int f,int g);
-void show_5(int a,int b,int c,int d,int e,int f,int g);
-void show_6(int a,int b,int c,int d,int e,int f,int g);
-void show_7(int a,int b,int c,int d,int e,int f,int g);
-void show_8(int a,int b,int c,int d,int e,int f,int g);
-void show_9(int a,int b,int c,int d,int e,int f,int g);
+void show_no(int a,int b,int c,int d,int e,int f,int g,int no);
+
 
 
 
