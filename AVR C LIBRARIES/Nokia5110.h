@@ -1,3 +1,4 @@
+
 * Nokia5110.h
 *
 * Created: 6/20/2023 2:02:41 PM
@@ -20,11 +21,6 @@
 
 
 
-#define RST 9
-#define CE  10
-#define DC  11
-#define DIN  12
-#define CLK  13
 
 
 
@@ -142,5 +138,7 @@ void LcdWriteCmd(char cmd);
 //function used to write data;
 void LcdWriteData(char dat);
 
+//function used to init display
+void LCD_INIT();
 
 #endif /* NOKIA_H_ */
